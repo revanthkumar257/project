@@ -50,12 +50,12 @@ body
 
 .background
 {
-    height: 480px;
-    /* background-image: url('../images/background.webp'); */
+    height: 390px;
     background-color:lightgoldenrodyellow;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left center;
+    padding-bottom: 20px;
 }
 
 .menu-container
@@ -322,6 +322,7 @@ body
 
 .the-best-of-nature-top
 {
+    padding-left: 110px;
     font-size: 58px;
     font-family: 'airbnb-bold';
     color: #222222;
