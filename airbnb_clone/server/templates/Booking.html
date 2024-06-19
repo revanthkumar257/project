@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Airbnb - My Booking</title>
+    <link rel="stylesheet" href="../static/css/mystyle.css">
+    <link rel="shortcut icon" href="../static/images/favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../static/images/icons/css/all.min.css">
+    <script src="../static/images/icons/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 300px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card .details {
+            padding: 15px;
+        }
+        .card .details h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        .card .details p {
+            margin: 0 0 5px 0;
+            color: #555;
+        }
+        .card .details .price {
+            font-size: 1.1em;
+            color: #333;
+        }
+        .card .details .rating {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <p class="top-text">Latest News about our response against COVID-19</p>
+    </div>
+
+    <div class="background">
+        <div class="menu-container">
+            <div class="menu-flex">
+                <img src="../static/images/logo.png" class="logo" />
+            </div>
+            <div class="menu-flex">
+                <div class="menus">
+                </div>
+            </div>
+            <div class="menu-flex">
+                <div class="right-menu">
+                    <div class="right-menu-item">
+                        <button class="menu-globe">
+                        </button>
+                        <div class="button-icons">
+                            <span class="material-icons iconMenu">menu</span>
+                            <span class="material-icons iconUser">account_circle</span>
+                            <span class="material-icons iconDot">fiber_manual_record</span>
+                            <i class="fa-solid fa-circle iconCircle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nature">
+            <div class="the-best-of-nature-top">
+                My Booking
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <b class="explore">Your Booked Hotels</b>
+    <div id="hotelDetails" class="container">
+        {% for booking in bookings %}
+        <div class="card">
+            <img src="{{ booking.image }}" alt="{{ booking.name }}" />
+            <div class="details">
+                <h3>{{ booking.name }}</h3>
+                <p>{{ booking.details }}</p>
+                <p class="price">{{ booking.price }}</p>
+                <p class="rating">{{ booking.rating }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br />
+    <div class="help-footer">
+        <span class="material-icons help-icon">help_outline</span>
+        <p>For information about your stay, please click <b>here</b>.</p>
+    </div>
+    <div class="impressum">
+        <p>
+            © 2023 Airbnb. All rights reserved. All services are subject to
+            Airbnb's Terms of Service and Privacy Policy. For more information
+            on how to protect your stay, visit the website <br>
+            <a href="https://www.airbnb.com/help/article/2503/responsible-visits- and-everyone's-opinion">Responsible Visits and People's Opinion</a>
+        </p>
+    </div>
+</body>
+</html>

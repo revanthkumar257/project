@@ -26,8 +26,14 @@ class Property(db.Model):
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    details = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.String(50), nullable=False)
+    rating = db.Column(db.String(10), nullable=False)
+
+class MyBookings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey('property.id', ondelete='CASCADE'), nullable=True)
+    hotel = db.relationship('Property', backref=db.backref('rents', cascade='all, delete'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    check_in = db.Column(db.DateTime, nullable=False)
-    check_out = db.Column(db.DateTime, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now)

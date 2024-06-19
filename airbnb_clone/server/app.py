@@ -1,14 +1,16 @@
-from flask import Flask, render_template, jsonify, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 from config import Config
 from models import db, Booking
 from auth import auth_blueprint
 from hotel import hotel_blueprint
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
-import os
-import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 db.init_app(app)
 jwt = JWTManager(app)
@@ -17,7 +19,21 @@ jwt = JWTManager(app)
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
 app.register_blueprint(hotel_blueprint, url_prefix='/api')
 
-# Routes
+@app.route('/book', methods=['POST'])
+def book():
+    data = request.get_json()
+    if 'bookings' not in session:
+        session['bookings'] = []
+    session['bookings'].append(data)
+    return jsonify({'success': True})
+
+@app.route('/mybookings')
+@jwt_required()
+def my_bookings():
+    current_user_id = get_jwt_identity()
+    bookings = Booking.query.filter_by(user_id=current_user_id).all()
+    return render_template('Booking.html', bookings=bookings)
+
 @app.route("/")
 def home():
     return render_template('home.html')
@@ -26,20 +42,13 @@ def home():
 def login():
     return render_template('login.html')
 
-@app.route('/mybookings')
-@jwt_required()
-def my_bookings():
-    current_user_id = get_jwt_identity()
-    bookings = Booking.query.filter_by(user_id=current_user_id).all()
-    return render_template('my_bookings.html', bookings=bookings)
-
 @app.route('/chatbot')
 def chatbot():
     return render_template('chatbot.html')
 
 @app.route('/stays')
-def stays1():
-    return render_template('stays1.html')
+def stays():
+    return render_template('Stays.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
