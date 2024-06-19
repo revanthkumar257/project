@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for,render_template
 from models import db, bcrypt, User
 from flask_jwt_extended import create_access_token
 
@@ -6,10 +6,9 @@ auth_blueprint = Blueprint('auth', __name__)
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
-    data = request.json
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
+    username = request.form.get('fName') + " " + request.form.get('lName')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     # Check if the email already exists
     existing_user = User.query.filter_by(email=email).first()
@@ -24,17 +23,20 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message': 'User registered successfully.'}), 201
+    return redirect(url_for('auth.login_page'))
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     user = User.query.filter_by(email=email).first()
     if not user or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'message': 'Invalid credentials'}), 401
 
     access_token = create_access_token(identity=user.id)
-    return jsonify({'message': 'Login successful.', 'access_token': access_token}), 200
+    return redirect(url_for('home'))
+
+@auth_blueprint.route('/login_page')
+def login_page():
+    return render_template('login.html')
