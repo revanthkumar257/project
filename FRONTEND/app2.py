@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "sqlite:///airbnb.db"  # Replace with your database URI
+    "mysql+pymysql://cheenu:1234@localhost/airbnb_clone_db"  # Replace with your database URI
 )
 db = SQLAlchemy(app)
 
