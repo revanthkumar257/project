@@ -1,10 +1,11 @@
 from flask import Flask, render_template, jsonify, request
 from config import Config
-from models import db, Booking
+from models import db, Booking,migrate
 from auth import auth_blueprint
 from hotel import hotel_blueprint
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -13,6 +14,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 db.init_app(app)
+migrate.init_app(app, db)
 jwt = JWTManager(app)
 
 # Register blueprints
