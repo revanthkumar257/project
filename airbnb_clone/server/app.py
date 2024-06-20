@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from flask import Flask, render_template, jsonify, request
 from config import Config
 from models import db, Booking
 from auth import auth_blueprint
@@ -20,11 +20,22 @@ app.register_blueprint(auth_blueprint, url_prefix='/auth')
 app.register_blueprint(hotel_blueprint, url_prefix='/api')
 
 @app.route('/book', methods=['POST'])
+@jwt_required()
 def book():
     data = request.get_json()
-    if 'bookings' not in session:
-        session['bookings'] = []
-    session['bookings'].append(data)
+    current_user_id = get_jwt_identity()
+    
+    new_booking = Booking(
+        user_id=current_user_id,
+        image=data['image'],
+        name=data['name'],
+        details=data['details'],
+        price=data['price'],
+        rating=data['rating']
+    )
+    db.session.add(new_booking)
+    db.session.commit()
+    
     return jsonify({'success': True})
 
 @app.route('/mybookings')

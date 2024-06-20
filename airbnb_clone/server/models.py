@@ -23,6 +23,7 @@ class Property(db.Model):
     price = db.Column(db.Numeric(10, 2), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
