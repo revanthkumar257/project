@@ -1,10 +1,9 @@
-from app2 import db, Property
+from models import Booking, db
 
-db.create_all()
 
 # Add some sample data
 properties = [
-    Property(
+    Booking(
         name="Velhe, Torna-Rajgad, India",
         location="Mountain and pool views",
         date_range="21–26 Jul",
@@ -12,7 +11,7 @@ properties = [
         rating=4.9,
         image_url="images/living1.webp",
     ),
-    Property(
+    Booking(
         name="Gokarna, India",
         location="Mountain and pool views",
         date_range="18–23 Jun",
@@ -20,7 +19,7 @@ properties = [
         rating=4.9,
         image_url="images/living2.webp",
     ),
-    Property(
+    Booking(
         name="Lonavla, India",
         location="Mountain and pool views",
         date_range="4–9 Jul",
@@ -28,7 +27,7 @@ properties = [
         rating=5.0,
         image_url="images/living3.webp",
     ),
-    Property(
+    Booking(
         name="Udaipur, India",
         location="Mountain and pool views",
         date_range="18–23 Jun",
@@ -36,7 +35,7 @@ properties = [
         rating=5.0,
         image_url="images/living4.webp",
     ),
-    Property(
+    Booking(
         name="Vathalmalai, India",
         location="Mountain and pool views",
         date_range="19–24 Jun",
@@ -45,6 +44,7 @@ properties = [
         image_url="images/amazing1.jpg",
     ),
 ]
+
 
 for prop in properties:
     db.session.add(prop)
